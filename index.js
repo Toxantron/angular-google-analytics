@@ -27,10 +27,11 @@
           ecommerce = false,
           enhancedEcommerce = false,
           enhancedLinkAttribution = false,
+          eventListener = null,
           experimentId,
-          ignoreFirstPageLoad = false,
-          logAllCalls = false,
           hybridMobileSupport = false,
+          ignoreFirstPageLoad = false,
+          logAllCalls = false,          
           offlineMode = false,
           pageEvent = '$routeChangeSuccess',
           readFromRoute = false,
@@ -1081,20 +1082,28 @@
           }
         }
 
-        // activates page tracking
-        if (trackRoutes) {
-          $rootScope.$on(pageEvent, function () {
-            // Apply $route based filtering if configured
-            if (readFromRoute) {
-              // Avoid tracking undefined routes, routes without template (e.g. redirect routes)
-              // and those explicitly marked as 'do not track'
-              if (!$route.current || !$route.current.templateUrl || $route.current.doNotTrack) {
+        // This section adds different listeners based on the configuration
+        if (trackRoutes && !readFromRoute) {
+          // Default listener without $route
+          eventListener = function() {
+            that._trackPage();    
+          };
+        } else if (trackRoutes && readFromRoute) {
+          // Track page but use the $route configuration 
+          eventListener = function() {
+            // Avoid tracking undefined routes, routes without template (e.g. redirect routes)
+            // and those explicitly marked as 'do not track'
+            if (!$route.current || !$route.current.templateUrl || $route.current.doNotTrack) {
                 return;
-              }
             }
-            
+                
             that._trackPage();
-          });
+          };
+        }
+        
+        // Add listener if it was defined
+        if (eventListener != null) {
+          $rootScope.$on(pageEvent, eventListener);
         }
 
         return {
