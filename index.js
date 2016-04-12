@@ -27,7 +27,6 @@
           ecommerce = false,
           enhancedEcommerce = false,
           enhancedLinkAttribution = false,
-          eventListener = null,
           experimentId,
           hybridMobileSupport = false,
           ignoreFirstPageLoad = false,
@@ -39,6 +38,7 @@
           testMode = false,
           traceDebuggingMode = false,
           trackPrefix = '',
+          trackRouteFn = null,
           trackRoutes = true,
           trackUrlParams = false;
 
@@ -190,6 +190,12 @@
       // Enable reading page url from route object
       this.readFromRoute = function(val) {
         readFromRoute = !!val;
+        return this;
+      };
+      
+      // Custom route tracking function
+      this.trackRouteFunction = function(trackingFunction) {
+        trackRouteFn = trackingFunction;
         return this;
       };
 
@@ -1083,7 +1089,10 @@
         }
 
         // This section adds different listeners based on the configuration
-        if (trackRoutes && !readFromRoute) {
+        var eventListener;
+        if (trackRouteFn != null) {
+          eventListener = trackRouteFn;
+        } else if (trackRoutes && !readFromRoute) {
           // Default listener without $route
           eventListener = function() {
             that._trackPage();    
