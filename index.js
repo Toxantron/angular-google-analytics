@@ -1092,6 +1092,13 @@
         var eventListener;
         if (trackRouteFn != null) {
           eventListener = trackRouteFn;
+        } else if (trackRoutes && hybridMobileSupport) {
+          // For mobile devices we need to track a sreen rather than a page
+          eventListener = function (event, state) {
+            that._send('screenview', {
+              screenName: state.name
+            });  
+          };
         } else if (trackRoutes && !readFromRoute) {
           // Default listener without $route
           eventListener = function() {
