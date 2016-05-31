@@ -1,14 +1,15 @@
 {
   "name": "angular-google-analytics",
   "description": "Angular Google Analytics - Easy tracking for your AngularJS application",
-  "version": "1.1.7",
+  "version": "2.0",
   "homepage": "http://github.com/revolunet/angular-google-analytics",
   "author": "Julien Bouquillon <julien@revolunet.com> (https://github.com/revolunet)",
   "contributors": [
     "Julien Bouquillon (https://github.com/revolunet)",
     "Justin Saunders (https://github.com/justinsa)",
     "Chris Esplin (https://github.com/deltaepsilon)",
-    "Adam Misiorny (https://github.com/adam187)"
+    "Adam Misiorny (https://github.com/adam187)",
+    "Thomas Fuchs (https://github.com/Toxantron)"
   ],
   "main": "index.js",
   "repository": {
@@ -20,7 +21,10 @@
     "npm": "*"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@angular/common": "2.0.0-rc.1",
+    "@angular/core": "2.0.0-rc.1"
+  },
   "devDependencies": {
     "bower": "*",
     "karma": "*",

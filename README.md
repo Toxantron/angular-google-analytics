@@ -6,6 +6,14 @@
 [![Master Build Status](https://codeship.com/projects/ba7a0af0-33fe-0133-927c-127922174191/status?branch=master)](https://codeship.com/projects)
 [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](https://github.com/revolunet/angular-google-analytics/blob/master/LICENSE)
 
+# Work in progress
+This project is currently ported to Angular 2 and TypeScript. *DO NOT COMMIT the index.js as we need to to migrate the code!*
+
+DevGuide:
+
+1. Install TypeScript with `npm install -g typescript`
+2. Compile with `tsc index.ts`
+
 This service lets you integrate google analytics tracker in your AngularJS applications easily.
 
 You can use basic functions, `Analytics.trackEvent('video', 'play', 'django.mp4');` or more advanced e-commerce features like product tracking, promo codes, transactions...
