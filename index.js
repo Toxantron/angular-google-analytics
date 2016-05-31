@@ -195,7 +195,9 @@
       
       // Custom route tracking function
       this.trackRouteFunction = function(trackingFunction) {
-        trackRouteFn = trackingFunction;
+        if (typeof trackingFunction === 'function') {
+          trackRouteFn = trackingFunction;
+        }
         return this;
       };
 
@@ -1090,8 +1092,15 @@
 
         // This section adds different listeners based on the configuration
         var eventListener;
-        if (trackRouteFn != null) {
+        if (typeof trackRouteFn === 'function') {
           eventListener = trackRouteFn;
+        } else if (trackRoutes && hybridMobileSupport) {
+          // For mobile devices we need to track a sreen rather than a page
+          eventListener = function (event, state) {
+            that._send('screenview', {
+              screenName: state.name
+            });  
+          };
         } else if (trackRoutes && !readFromRoute) {
           // Default listener without $route
           eventListener = function() {
@@ -1111,7 +1120,7 @@
         }
         
         // Add listener if it was defined
-        if (eventListener != null) {
+        if (typeof eventListener === 'function') {
           $rootScope.$on(pageEvent, eventListener);
         }
 
