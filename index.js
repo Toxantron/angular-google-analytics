@@ -195,7 +195,9 @@
       
       // Custom route tracking function
       this.trackRouteFunction = function(trackingFunction) {
-        trackRouteFn = trackingFunction;
+        if (typeof trackingFunction === 'function') {
+          trackRouteFn = trackingFunction;
+        }
         return this;
       };
 
@@ -1090,7 +1092,7 @@
 
         // This section adds different listeners based on the configuration
         var eventListener;
-        if (trackRouteFn != null) {
+        if (typeof trackRouteFn === 'function') {
           eventListener = trackRouteFn;
         } else if (trackRoutes && hybridMobileSupport) {
           // For mobile devices we need to track a sreen rather than a page
@@ -1118,7 +1120,7 @@
         }
         
         // Add listener if it was defined
-        if (eventListener != null) {
+        if (typeof eventListener === 'function') {
           $rootScope.$on(pageEvent, eventListener);
         }
 
