@@ -7,12 +7,29 @@
 [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](https://github.com/revolunet/angular-google-analytics/blob/master/LICENSE)
 
 # Work in progress
-This project is currently ported to Angular 2 and TypeScript. *DO NOT COMMIT the index.js as we need to to migrate the code!*
+This project is currently ported to Angular 2 and TypeScript. **DO NOT COMMIT the index.js as we need to to migrate the code!**
 
-DevGuide:
+## DevGuide:
 
 1. Install TypeScript with `npm install -g typescript`
-2. Compile with `tsc index.ts`
+2. Run `npm install` to install the other modules
+2. Copy `index.js` to `index_copy.js`
+3. Compile with `tsc index.ts`
+
+## Concept
+Users inject `AnalyticsConfig` into their app and use the current fluent API like so:
+
+```ts
+class AppComponent {
+  constructor(private analyticsConfig : AnalyticsConfig) {
+    analyticsConfig.setFoo(x).blub('Hallo');
+  }
+}
+```
+
+Later the same instance is injected into Analytics.
+
+---
 
 This service lets you integrate google analytics tracker in your AngularJS applications easily.
 
