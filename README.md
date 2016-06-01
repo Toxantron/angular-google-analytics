@@ -22,7 +22,7 @@ Users inject `AnalyticsConfig` into their app and use the current fluent API lik
 ```ts
 class AppComponent {
   constructor(private analyticsConfig : AnalyticsConfig) {
-    analyticsConfig.setFoo(x).blub('Hallo');
+    this.analyticsConfig.setFoo(x).blub('Hallo');
   }
 }
 ```
