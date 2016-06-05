@@ -41,32 +41,32 @@ class UniversalTracker implements ITracker {
 @Injectable()
 export class AnalyticsConfig {
   // All config values of the analytics module
-  public _accounts : any[];
-  public _created : boolean = false;
-  public _crossDomainLinker : boolean = false;
-  public _crossLinkDomains : boolean = false;
-  public _currency : string = 'USD';
-  public _debugMode : boolean = false;
-  public _delayScriptTag : boolean = false;
-  public _displayFeatures : boolean = false;
-  public _disableAnalytics : boolean = false;
-  public _domainName : string;
-  public _ecommerce : boolean = false;
-  public _enhancedEcommerce : boolean = false;
-  public _enhancedLinkAttribution : boolean = false;
-  public _experimentId : string;
-  public _ignoreFirstPageLoad : boolean = false;
-  public _logAllCalls : boolean = false;
-  public _hybridMobileSupport : boolean = false;
-  public _offlineMode : boolean = false;
-  public _pageEvent : string = '$routeChangeSuccess';
-  public _readFromRoute : boolean = false;
-  public _removeRegExp : string;
-  public _testMode : boolean = false;
-  public _traceDebuggingMode : boolean = false;
-  public _trackPrefix : string = '';
-  public _trackRoutes : boolean = true;
-  public _trackUrlParams : boolean = false;
+  private _accounts : any[];
+  private _created : boolean = false;
+  private _crossDomainLinker : boolean = false;
+  private _crossLinkDomains : boolean = false;
+  private _currency : string = 'USD';
+  private _debugMode : boolean = false;
+  private _delayScriptTag : boolean = false;
+  private _displayFeatures : boolean = false;
+  private _disableAnalytics : boolean = false;
+  private _domainName : string;
+  private _ecommerce : boolean = false;
+  private _enhancedEcommerce : boolean = false;
+  private _enhancedLinkAttribution : boolean = false;
+  private _experimentId : string;
+  private _ignoreFirstPageLoad : boolean = false;
+  private _logAllCalls : boolean = false;
+  private _hybridMobileSupport : boolean = false;
+  private _offlineMode : boolean = false;
+  private _pageEvent : string = '$routeChangeSuccess';
+  private _readFromRoute : boolean = false;
+  private _removeRegExp : string;
+  private _testMode : boolean = false;
+  private _traceDebuggingMode : boolean = false;
+  private _trackPrefix : string = '';
+  private _trackRoutes : boolean = true;
+  private _trackUrlParams : boolean = false;
   
   private _tracker : ITracker = new ClassicTracker();
   
@@ -149,6 +149,7 @@ export Tracking(target) {
   return function(config) {
     var analyticsConfig = new AnalyticsConfig();
     for (var key in config) {
+      // Using reflection we can access the 'private' fields
       analyticsConfig['_' + key] = config[key];
     }
     target.$analytics = analyticsConfig;

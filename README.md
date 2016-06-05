@@ -27,6 +27,16 @@ class AppComponent {
 }
 ```
 
+Additionally a decorator can be used for the configuration
+
+```js
+@Tracking({
+  readFromRoute : true,
+  useECommerce : true
+})
+class AppComponent {
+}
+
 Later the same instance is injected into Analytics.
 
 ---
