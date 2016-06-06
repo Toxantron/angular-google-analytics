@@ -1091,32 +1091,37 @@
         }
 
         // This section adds different listeners based on the configuration
-        var eventListener;
+        var eventListener = null;
         if (typeof trackRouteFn === 'function') {
-          eventListener = trackRouteFn;
-        } else if (trackRoutes && hybridMobileSupport) {
-          // For mobile devices we need to track a sreen rather than a page
-          eventListener = function (event, state) {
-            that._send('screenview', {
-              screenName: state.name
-            });  
-          };
-        } else if (trackRoutes && !readFromRoute) {
-          // Default listener without $route
           eventListener = function() {
-            that._trackPage();    
+            // Redirect event to custom function, passing in protected object
+            trackRouteFn.apply(that, arguments);
           };
-        } else if (trackRoutes && readFromRoute) {
-          // Track page but use the $route configuration 
-          eventListener = function() {
-            // Avoid tracking undefined routes, routes without template (e.g. redirect routes)
-            // and those explicitly marked as 'do not track'
-            if (!$route.current || !$route.current.templateUrl || $route.current.doNotTrack) {
-                return;
-            }
-                
-            that._trackPage();
-          };
+        } else if (trackRoutes) {
+          if (hybridMobileSupport) {
+            // For mobile devices we need to track a screen rather than a page
+            eventListener = function (event, state) {
+              that._send('screenview', {
+                screenName: state.name
+              });  
+            };
+          } else if (readFromRoute) {
+            // Track page but use the $route configuration 
+            eventListener = function() {
+              // Avoid tracking undefined routes, routes without template (e.g. redirect routes)
+              // and those explicitly marked as 'do not track'
+              if (!$route.current || !$route.current.templateUrl || $route.current.doNotTrack) {
+                  return;
+              }
+                  
+              that._trackPage();
+            };
+          } else {
+            // Default listener without $route
+            eventListener = function() {
+              that._trackPage();    
+            };
+          }
         }
         
         // Add listener if it was defined
