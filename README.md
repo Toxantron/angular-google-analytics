@@ -29,15 +29,22 @@ class AppComponent {
 
 Additionally a decorator can be used for the configuration
 
-```js
+```ts
 @Tracking({
   readFromRoute : true,
   useECommerce : true
 })
 class AppComponent {
 }
+```
 
 Later the same instance is injected into Analytics.
+
+````ts
+export class Analyitcs {
+  constructor(private config : AnalyticsConfig) {}
+}
+````
 
 ---
 
