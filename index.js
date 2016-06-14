@@ -14,6 +14,7 @@
     .provider('Analytics', function () {
       var accounts,
           analyticsJS = true,
+          appName,
           cookieConfig = 'auto', // DEPRECATED
           created = false,
           crossDomainLinker = false,
@@ -153,7 +154,9 @@
         return this;
       };
 
-      this.setHybridMobileSupport = function (val) {
+      // Set appName as required by mobile mode 
+      this.setHybridMobileSupport = function (val, name) {
+        appName = name;
         hybridMobileSupport = !!val;
         return this;
       };
@@ -1102,6 +1105,7 @@
             // For mobile devices we need to track a screen rather than a page
             eventListener = function (event, state) {
               that._send('screenview', {
+                appName: appName,                
                 screenName: state.name
               });  
             };

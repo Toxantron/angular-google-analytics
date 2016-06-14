@@ -12,19 +12,19 @@ describe('Hybrid mobile tracking function', function() {
       .logAllCalls(true)
       .enterTestMode()
       .useAnalytics(true)
-      .setHybridMobileSupport(true);
+      .setHybridMobileSupport(true, 'myApp');
   }));
   
   afterEach(inject(function (Analytics) {
     Analytics.log.length = 0; // clear log
   }));
   
-  it('would track screen view', function () {
+  it('tracks screen view', function () {
     inject(function(Analytics, $rootScope){
       Analytics.log.length = 0; // clear queue
       $rootScope.$broadcast('$routeChangeSuccess', { name: 'myScreen' });
       expect(Analytics.log.length).toBe(1);
-      expect(Analytics.log[0]).toEqual(['send', 'screenview', { screenName: 'myScreen' }]);
+      expect(Analytics.log[0]).toEqual(['send', 'screenview', { screenName: 'myScreen', appName: 'myApp' }]);
     });
   });
 });

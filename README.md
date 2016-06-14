@@ -267,11 +267,11 @@ to the official [angular ngRoute documentation](https://docs.angularjs.org/api/n
 **Note:** only a single experiment can be defined.
 
 ### Support Hybrid Mobile Applications
-This property is defined for universal analytics only and is false by default.
+This property is defined for universal analytics only and is false by default. The method also accepts the `appName` required by google analytics.
 
 ```js
   // Set hybrid mobile application support
-  AnalyticsProvider.setHybridMobileSupport(true);
+  AnalyticsProvider.setHybridMobileSupport(true, 'myApp');
 ```
 
 If set to a truthy value then each account object will disable protocol checking and all injected scripts will use the HTTPS protocol.
