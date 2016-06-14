@@ -1111,7 +1111,7 @@
               // Avoid tracking undefined routes, routes without template (e.g. redirect routes)
               // and those explicitly marked as 'do not track'
               if (!$route.current || !$route.current.templateUrl || $route.current.doNotTrack) {
-                  return;
+                return;
               }
                   
               that._trackPage();
