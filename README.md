@@ -28,8 +28,18 @@ Proudly brought to you by [@revolunet](http://twitter.com/revolunet), [@deltaeps
  - analytics.js advanced debugging support
 
 ## Installation
+You can install the module from a package manger of your choice directly from the command line
 
-`bower install angular-google-analytics`
+```sh
+# Bower
+bower install angular-google-analytics
+
+# NPM
+npm i angular-google-analytics
+
+# Nuget
+nuget install angular-google-analytics
+```
 
 Or alternatively, grab the dist/angular-google-analytics.min.js and include it in your project
 
@@ -60,7 +70,7 @@ app.config(function (AnalyticsProvider) {
   AnalyticsProvider
     .logAllCalls(true)
     .startOffline(true)
-    .useEcommerce(true, true);
+    .useECommerce(true, true);
 ```
 
 ### Use Classic Analytics
@@ -266,7 +276,7 @@ to the official [angular ngRoute documentation](https://docs.angularjs.org/api/n
 ```
 **Note:** only a single experiment can be defined.
 
-### Support Hybrid Mobile Applications
+### Support Hybrid Mobile Applications (universal analytics only)
 This property is defined for universal analytics only and is false by default. The method also accepts the `appName` required by google analytics.
 
 ```js
@@ -276,13 +286,14 @@ This property is defined for universal analytics only and is false by default. T
 
 If set to a truthy value then each account object will disable protocol checking and all injected scripts will use the HTTPS protocol.
 
-### Delay Script Tag Insertion
+### Delay Script Tag Insertion and Tracker Setup
 ```js
-  // Must manually call create script tag method in order to insert and configure Google Analytics:
-  //   Classic analytics:   Analytics.createScriptTag();
-  //   Universal analytics: Analytics.createAnalyticsScriptTag();
+  // Must manually call registerScriptTags method in order to insert the Google Analytics scripts on the page.
+  //   Analytics.registerScriptTags();
+  // Must manually call registerTrackers method in order to setup the trackers with Google Analytics.
+  //   Analytics.registerTrackers();
   // Helpful when needing to do advanced configuration or user opt-out and wanting explicit control
-  // over when the Google Analytics script gets injected.
+  // over when the Google Analytics scripts get injected or tracker setup happens.
   AnalyticsProvider.delayScriptTag(true);
 ```
 
@@ -380,19 +391,6 @@ The following configuration settings are intended to be immutable. While the val
   Analytics.configuration.trackUrlParams;
 ```
 
-### Get or Set Cookie Configuration
-**NOTE:** These methods are being **deprecated**. Use the `fields` property on the account object instead.
-
-```js
-  // Get the global cookie config.
-  Analytics.getCookieConfig();
-
-  // Set the global cookie config.
-  // Impacts all future calls for classic analytics (ga.js).
-  Analytics.setCookieConfig();
-```
-**Note:** Changing the cookie configuration after the AnalyticsProvider configuration does not update the individual account objects used by universal analytics (analytics.js). If you want to change the account objects used by universal analytics those can be accessed through `Analytics.configuration.accounts`, but such modification to the accounts object is unsupported.
-
 ### Get URL
 ```js
   // Returns the current URL that would be sent if a `trackPage` call was made.
@@ -400,14 +398,14 @@ The following configuration settings are intended to be immutable. While the val
   Analytics.getUrl();
 ```
 
-### Manual Script Tag Injection
-If `delayScriptTag(true)` was set during configuration then manual script tag injection is required. Otherwise, the script tag will be automatically injected and configured when the service is instantiated.
+### Manual Script Tag Injection and Tracker Setup
+If `delayScriptTag(true)` was set during configuration then manual script tag injection and tracker setup is required. Otherwise, the script tag and trackers will be automatically injected and configured when the service is instantiated.
 ```js
-  // Manually create classic analytics (ga.js) script tag
-  Analytics.createScriptTag();
+  // Manually create either classic analytics (ga.js) or universal analytics (analytics.js) script tags
+  Analytics.registerScriptTags();
 
-  // Manually create universal analytics (analytics.js) script tag
-  Analytics.createAnalyticsScriptTag();
+  // Manually setup the tracker object(s)
+  Analytics.registerTrackers();
 ```
 
 ### Advanced Settings / Custom Dimensions
