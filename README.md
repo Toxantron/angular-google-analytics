@@ -360,6 +360,10 @@ The following configuration settings are intended to be immutable. While the val
 ```js
   // This is a mutable array. Changes to this list will impact service behaviors.
   Analytics.configuration.accounts;
+  
+  // Hybrid mobile support
+  Analytics.configuration.mobileAppName;
+  Analytics.Configuration.hybridMobileSupport;
 
   // If `true` then universal analytics is being used.
   // If `false` then classic analytics is being used.
