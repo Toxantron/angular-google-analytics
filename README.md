@@ -280,8 +280,17 @@ to the official [angular ngRoute documentation](https://docs.angularjs.org/api/n
 This property is defined for universal analytics only and is false by default. The method also accepts the `appName` required by google analytics.
 
 ```js
-  // Set hybrid mobile application support
+  // DEPRECATED: Old API is still supported, but logs a warning when using automatic tracking
+  AnalyticsProvider.setHybridMobileSupport(true);
+
+  // Minimal setup is giving the appName
   AnalyticsProvider.setHybridMobileSupport(true, 'myApp');
+
+  // If you need more properties set an object
+  AnalyticsProvider.setHybridMobileSupport(true, { appName: 'myApp', appVersion: '0.1' });
+
+  // You can even leave the first argument, simply calling the methd is sufficient
+  AnalyticsProvider.setHybridMobileSupport({ appName: 'myApp', appVersion: '0.1' });
 ```
 
 If set to a truthy value then each account object will disable protocol checking and all injected scripts will use the HTTPS protocol.
@@ -362,8 +371,9 @@ The following configuration settings are intended to be immutable. While the val
   Analytics.configuration.accounts;
   
   // Hybrid mobile support
-  Analytics.configuration.mobileAppName;
   Analytics.Configuration.hybridMobileSupport;
+  // All properties included in the analytics call like appName etc
+  Analytics.configuration.mobileAppProperties;
 
   // If `true` then universal analytics is being used.
   // If `false` then classic analytics is being used.

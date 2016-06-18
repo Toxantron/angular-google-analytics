@@ -14,7 +14,7 @@
     .provider('Analytics', function () {
       var accounts,
           analyticsJS = true,
-          mobileAppName,
+          mobileAppProperties = null,
           cookieConfig = 'auto', // DEPRECATED
           created = false,
           crossDomainLinker = false,
@@ -154,10 +154,29 @@
         return this;
       };
 
-      // Set appName as required by mobile mode 
-      this.setHybridMobileSupport = function (val, name) {
-        mobileAppName = name;
-        hybridMobileSupport = !!val;
+      // Configure mobile app properties 
+      this.setHybridMobileSupport = function (val, properties) {
+        if (typeof val === 'undefined') {
+          return this;
+        }
+        
+        function setAppProperties(properties){
+          switch(typeof properties) {
+            case 'string':
+              mobileAppProperties = { appName: properties };
+              break;
+            case 'object':
+              mobileAppProperties = properties;
+          }
+        }
+        
+        if(typeof val === 'boolean') {
+          hybridMobileSupport = val;
+          setAppProperties(properties);
+        } else {
+          hybridMobileSupport = true;
+          setAppProperties(val);
+        }
         return this;
       };
 
@@ -1114,10 +1133,14 @@
           if (hybridMobileSupport) {
             // For mobile devices we need to track a screen rather than a page
             eventListener = function (event, state) {
-              that._send('screenview', {
-                appName: mobileAppName,                
-                screenName: state.name
-              });  
+              if(!mobileAppProperties || !mobileAppProperties.appName) {
+                $log.warn('Analytics can not track mobile apps without basic \'appName\' properties');
+                return;
+              }
+              // Create a copy for the tracking function to avoid manipulation during transmission
+              var args = angular.copy(mobileAppProperties);
+              args.screenName = state.name;
+              that._send('screenview', args);  
             };
           } else if (readFromRoute) {
             // Track page but use the $route configuration 
@@ -1148,7 +1171,7 @@
           offlineQueue: that.offlineQueue,
           configuration: {
             accounts: accounts,
-            mobileAppName: mobileAppName,
+            mobileAppProperties: mobileAppProperties,
             universalAnalytics: analyticsJS,
             crossDomainLinker: crossDomainLinker,
             crossLinkDomains: crossLinkDomains,
