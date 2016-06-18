@@ -289,8 +289,9 @@ This property is defined for universal analytics only and is false by default. T
   // If you need more properties set an object
   AnalyticsProvider.setHybridMobileSupport(true, { appName: 'myApp', appVersion: '0.1' });
 
-  // You can even leave the first argument, simply calling the methd is sufficient
+  // You can even leave the first argument, simply passing the properties is sufficient
   AnalyticsProvider.setHybridMobileSupport({ appName: 'myApp', appVersion: '0.1' });
+  AnalyticsProvider.setHybridMobileSupport('myApp');
 ```
 
 If set to a truthy value then each account object will disable protocol checking and all injected scripts will use the HTTPS protocol.
