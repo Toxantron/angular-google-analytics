@@ -112,4 +112,48 @@ describe('Hybrid mobile tracking function', function() {
       });
     });
   });
+  
+  describe('can be configured with boolean and name', function(){
+    beforeEach(module(function(AnalyticsProvider){
+      AnalyticsProvider.setHybridMobileSupport(true, 'myApp');
+    }));
+    
+    it('and be present in configuration', function(){
+      inject(function(Analytics){
+        expect(Analytics.configuration.hybridMobileSupport).toBe(true);
+        expect(Analytics.configuration.mobileAppProperties).toEqual({appName: 'myApp'});
+      });      
+    });
+    
+    it('track screen view', function () {
+      inject(function(Analytics, $rootScope){
+        Analytics.log.length = 0; // clear queue
+        $rootScope.$broadcast('$routeChangeSuccess', { name: 'myScreen' });
+        expect(Analytics.log.length).toBe(1);
+        expect(Analytics.log[0]).toEqual(['send', 'screenview', { screenName: 'myScreen', appName: 'myApp' }]);
+      });
+    });
+  });
+  
+  describe('can be configured with boolean and object', function(){
+    beforeEach(module(function(AnalyticsProvider){
+      AnalyticsProvider.setHybridMobileSupport(true, { appName: 'myApp', appVersion: '0.1' });
+    }));
+    
+    it('and be present in configuration', function(){
+      inject(function(Analytics){
+        expect(Analytics.configuration.hybridMobileSupport).toBe(true);
+        expect(Analytics.configuration.mobileAppProperties).toEqual({ appName: 'myApp', appVersion: '0.1' });
+      });      
+    });
+    
+    it('track screen view', function () {
+      inject(function(Analytics, $rootScope){
+        Analytics.log.length = 0; // clear queue
+        $rootScope.$broadcast('$routeChangeSuccess', { name: 'myScreen' });
+        expect(Analytics.log.length).toBe(1);
+        expect(Analytics.log[0]).toEqual(['send', 'screenview', { screenName: 'myScreen', appName: 'myApp', appVersion: '0.1' }]);
+      });
+    });
+  });
 });
