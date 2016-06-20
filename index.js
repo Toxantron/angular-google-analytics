@@ -167,6 +167,7 @@
               break;
             case 'object':
               mobileAppProperties = properties;
+              break;
           }
         }
         
